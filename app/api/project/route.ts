@@ -38,3 +38,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+export async function GET() {
+  try {
+   
+    const projects = await Project.find({});
+    return NextResponse.json(projects, { status: 200 });
+  } catch (error: any) {
+    console.error("Error fetching projects:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
