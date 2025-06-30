@@ -32,7 +32,7 @@ const Navbar = () => {
         {/* Left: Logo + Menu */}
         <div className="flex items-center gap-8">
           <Image src={logo} alt="Logo" width={100} height={100} />
-          <div className="hidden sm:flex gap-4 text-sm font-medium text-gray-600">
+          <div className="hidden md:flex gap-4 text-sm font-medium text-gray-600">
             <span className="cursor-pointer hover:text-black">Home</span>
             <span className="cursor-pointer hover:text-black">Projects</span>
             <span className="cursor-pointer hover:text-black">Clients</span>
