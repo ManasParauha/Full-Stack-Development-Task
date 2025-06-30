@@ -35,3 +35,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+export async function GET() {
+  try {
+    await connect();
+    const subscribers = await Subscriber.find({});
+    return NextResponse.json(subscribers);
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}

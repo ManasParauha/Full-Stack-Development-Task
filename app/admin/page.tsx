@@ -3,6 +3,7 @@ import { useSearchParams } from 'next/navigation';
 import AddProjectForm from '@/components/admin/AddProjectForm';
 import AddClientForm from '@/components/admin/AddClientForm';
 import ContactList from '@/components/admin/ContactList';
+import SubscriberList from '@/components/admin/SubscriberList';
 
 
 export default function AdminPage() {
@@ -23,6 +24,7 @@ export default function AdminPage() {
       <AddProjectForm/>
       <AddClientForm/>
       <ContactList/>
+      <SubscriberList/>
     </div>
   );
 }
