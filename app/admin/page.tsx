@@ -1,10 +1,35 @@
-// app/admin/page.jsx
 'use client';
 import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import axios from "axios";
 
 export default function AdminPage() {
   const searchParams = useSearchParams();
   const secret = searchParams.get('secret');
+
+  const [project, setProject] = useState({
+    image: '',
+    name: '',
+    description: ''
+  });
+
+  const handleChange = (e:any) => {
+    setProject({ ...project, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e:any) => {
+    e.preventDefault();
+    try {
+      await axios.post('/api/project', project);
+      alert('✅ Project added successfully!');
+      setProject({ image: '', name: '', description: '' });
+    } catch (error) {
+      alert('❌ Failed to add project');
+    }
+  };
 
   if (secret !== 'flipr123') {
     return (
@@ -15,22 +40,8 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
-
-      {/* Project Form */}
-      <section className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Add Project</h2>
-        {/* form fields go here */}
-      </section>
-
-      {/* Client Form */}
-      <section className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Add Client</h2>
-        {/* form fields go here */}
-      </section>
-
-      {/* Contact View & Newsletter View will come here */}
+    <div>
+      
     </div>
   );
 }
