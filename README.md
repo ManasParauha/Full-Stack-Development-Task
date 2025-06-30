@@ -17,7 +17,7 @@
 - View Newsletter Subscriber emails
 
 ### Bonus Feature
-- Integrated image cropper using react-easy-crop to crop images to 450x350 before uploading via EdgeStore
+- Integrated image cropper using react-easy-crop to crop images  before uploading via EdgeStore
 
 ---
 
