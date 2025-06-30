@@ -2,6 +2,7 @@
 import { useSearchParams } from 'next/navigation';
 import AddProjectForm from '@/components/admin/AddProjectForm';
 import AddClientForm from '@/components/admin/AddClientForm';
+import ContactList from '@/components/admin/ContactList';
 
 
 export default function AdminPage() {
@@ -21,6 +22,7 @@ export default function AdminPage() {
       <h1 className="text-2xl font-bold mb-6">Admin Dashboard</h1>
       <AddProjectForm/>
       <AddClientForm/>
+      <ContactList/>
     </div>
   );
 }

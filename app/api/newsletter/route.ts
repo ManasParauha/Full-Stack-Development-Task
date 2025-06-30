@@ -3,10 +3,11 @@ import Subscriber from "@/models/subscriberModel";
 import { NextRequest, NextResponse } from "next/server";
 
 // Connect to MongoDB
-connect();
+
 
 export async function POST(request: NextRequest) {
   try {
+    await connect();
     const { email } = await request.json();
 
     // Simple validation

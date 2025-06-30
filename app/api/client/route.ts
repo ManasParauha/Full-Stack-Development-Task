@@ -3,10 +3,11 @@ import Client from "@/models/clientModel";
 import { NextRequest, NextResponse } from "next/server";
 
 // Connect to MongoDB
-connect();
+
 
 export async function POST(request: NextRequest) {
   try {
+    await connect();
     const reqBody = await request.json();
     const { name, designation, description, image } = reqBody;
 

@@ -2,11 +2,11 @@ import {connect} from "@/lib/database/dbConfig"
 import Project from "@/models/projectModel";
 import { NextRequest, NextResponse } from "next/server";
 
-// Connect to MongoDB
-connect();
+
 
 export async function POST(request: NextRequest) {
   try {
+    await connect();
     const reqBody = await request.json();
     const { name, description, image } = reqBody;
 

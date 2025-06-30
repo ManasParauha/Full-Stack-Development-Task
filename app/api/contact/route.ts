@@ -13,3 +13,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
+
+export async function GET() {
+  try {
+    await connect();
+    const contacts = await Contact.find({});
+    return NextResponse.json(contacts);
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
