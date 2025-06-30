@@ -1,5 +1,8 @@
+@import url("https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css");
 @import "tailwindcss";
 @import "tw-animate-css";
+
+
 
 @custom-variant dark (&:is(.dark *));
 

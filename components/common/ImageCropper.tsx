@@ -5,7 +5,6 @@ import { useCallback, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { getCroppedImg } from '@/lib/cropImageUtils';
-import Image from 'next/image';
 
 type Props = {
   file: File;
@@ -18,7 +17,7 @@ const ImageCropper = ({ file, onCropComplete, onCancel }: Props) => {
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
 
-  const onCropDone = useCallback(async () => {
+  const handleCrop = useCallback(async () => {
     if (!croppedAreaPixels) return;
     const croppedImage = await getCroppedImg(URL.createObjectURL(file), croppedAreaPixels);
     if (croppedImage) {
@@ -26,21 +25,31 @@ const ImageCropper = ({ file, onCropComplete, onCancel }: Props) => {
     }
   }, [croppedAreaPixels]);
 
-  const onCropChange = (crop: any) => setCrop(crop);
-  const onZoomChange = (z: number[]) => setZoom(z[0]);
+  const onZoomChange = (v: number[]) => setZoom(v[0]);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg p-4 w-full max-w-lg space-y-4">
-        <div className="relative w-full h-[300px] bg-gray-100 rounded overflow-hidden">
+        <div className="relative w-full h-[300px] bg-gray-200 rounded">
           <Cropper
             image={URL.createObjectURL(file)}
             crop={crop}
             zoom={zoom}
             aspect={450 / 350}
-            onCropChange={onCropChange}
-            onZoomChange={(v) => setZoom(v)}
+            cropShape="rect"
+            showGrid={true}
+            onCropChange={setCrop}
+            onZoomChange={setZoom}
             onCropComplete={(_, areaPixels) => setCroppedAreaPixels(areaPixels)}
+            style={{
+              containerStyle: {
+                borderRadius: '8px',
+              },
+              cropAreaStyle: {
+                border: '2px solid #fff',
+                borderRadius: '4px',
+              },
+            }}
           />
         </div>
 
@@ -54,7 +63,7 @@ const ImageCropper = ({ file, onCropComplete, onCancel }: Props) => {
 
         <div className="flex justify-end gap-2">
           <Button variant="outline" onClick={onCancel}>Cancel</Button>
-          <Button onClick={onCropDone}>Crop & Upload</Button>
+          <Button onClick={handleCrop}>Crop & Upload</Button>
         </div>
       </div>
     </div>
