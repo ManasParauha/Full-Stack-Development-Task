@@ -1,6 +1,7 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
 import AddProjectForm from '@/components/admin/AddProjectForm';
+import AddClientForm from '@/components/admin/AddClientForm';
 
 
 export default function AdminPage() {
@@ -19,6 +20,7 @@ export default function AdminPage() {
      <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Admin Dashboard</h1>
       <AddProjectForm/>
+      <AddClientForm/>
     </div>
   );
 }
