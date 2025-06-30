@@ -7,6 +7,7 @@ import { Progress } from '@/components/ui/progress';
 import { useEdgeStore } from '@/lib/edgestore';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import ImageCropper from '@/components/common/ImageCropper';
 
 const AddClientForm = () => {
   const { edgestore } = useEdgeStore();
@@ -18,28 +19,9 @@ const AddClientForm = () => {
     image: ''
   });
 
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [showCropper, setShowCropper] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-
-  const handleUpload = async () => {
-    if (!imageFile) {
-      toast.error('Please select an image to upload.');
-      return;
-    }
-
-    try {
-      const res = await edgestore.publicFiles.upload({
-        file: imageFile,
-        onProgressChange: (progress) => setUploadProgress(progress),
-      });
-
-      setClient((prev) => ({ ...prev, image: res.url }));
-      toast.success('Image uploaded successfully!');
-    } catch (error) {
-      toast.error('Image upload failed.');
-      console.error(error);
-    }
-  };
 
   const handleSubmit = async () => {
     const { name, designation, description, image } = client;
@@ -53,7 +35,7 @@ const AddClientForm = () => {
       await axios.post('/api/client', client);
       toast.success('Client added!');
       setClient({ name: '', designation: '', description: '', image: '' });
-      setImageFile(null);
+      setSelectedFile(null);
       setUploadProgress(0);
     } catch (err: any) {
       toast.error('Failed to add client.');
@@ -99,8 +81,17 @@ const AddClientForm = () => {
         <p className='text-sm font-semibold'>Image Upload</p>
         <Progress value={uploadProgress} className='my-2' />
         <div className='flex items-center gap-2'>
-          <Input type='file' accept='image/*' onChange={(e) => setImageFile(e.target.files?.[0] || null)} />
-          <Button type='button' onClick={handleUpload}>Confirm</Button>
+          <Input
+            type='file'
+            accept='image/*'
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                setSelectedFile(file);
+                setShowCropper(true);
+              }
+            }}
+          />
         </div>
       </div>
 
@@ -112,6 +103,33 @@ const AddClientForm = () => {
       )}
 
       <Button type='button' onClick={handleSubmit}>Submit Client</Button>
+
+      {/* Image Cropper */}
+      {showCropper && selectedFile && (
+        <ImageCropper
+          file={selectedFile}
+          onCropComplete={async (croppedBlob) => {
+            try {
+              const res = await edgestore.publicFiles.upload({
+                file: new File([croppedBlob], 'cropped.jpg'),
+                onProgressChange: (p) => setUploadProgress(p),
+              });
+              setClient((prev) => ({ ...prev, image: res.url }));
+              toast.success('Image cropped and uploaded!');
+            } catch (err) {
+              console.error(err);
+              toast.error('Image upload failed');
+            } finally {
+              setShowCropper(false);
+              setSelectedFile(null);
+            }
+          }}
+          onCancel={() => {
+            setShowCropper(false);
+            setSelectedFile(null);
+          }}
+        />
+      )}
     </div>
   );
 };
