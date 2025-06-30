@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-   
+    await connect();
     const projects = await Project.find({});
     return NextResponse.json(projects, { status: 200 });
   } catch (error: any) {

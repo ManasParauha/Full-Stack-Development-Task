@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
+    await connect();
     const clients = await Client.find({});
     return NextResponse.json(clients, { status: 200 });
   } catch (error: any) {

@@ -1,5 +1,5 @@
 'use client';
-import { useSearchParams } from 'next/navigation';
+
 import AddProjectForm from '@/components/admin/AddProjectForm';
 import AddClientForm from '@/components/admin/AddClientForm';
 import ContactList from '@/components/admin/ContactList';
@@ -7,16 +7,10 @@ import SubscriberList from '@/components/admin/SubscriberList';
 
 
 export default function AdminPage() {
-  const searchParams = useSearchParams();
-  const secret = searchParams.get('secret');
+  
+  
 
-  if (secret !== 'flipr123') {
-    return (
-      <div className="p-4 text-red-600 font-semibold">
-        ❌ Unauthorized access. Please provide a valid secret key.
-      </div>
-    );
-  }
+
 
   return (
      <div className="p-6">
