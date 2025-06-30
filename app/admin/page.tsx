@@ -1,35 +1,11 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import axios from "axios";
+import AddProjectForm from '@/components/admin/AddProjectForm';
+
 
 export default function AdminPage() {
   const searchParams = useSearchParams();
   const secret = searchParams.get('secret');
-
-  const [project, setProject] = useState({
-    image: '',
-    name: '',
-    description: ''
-  });
-
-  const handleChange = (e:any) => {
-    setProject({ ...project, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e:any) => {
-    e.preventDefault();
-    try {
-      await axios.post('/api/project', project);
-      alert('✅ Project added successfully!');
-      setProject({ image: '', name: '', description: '' });
-    } catch (error) {
-      alert('❌ Failed to add project');
-    }
-  };
 
   if (secret !== 'flipr123') {
     return (
@@ -40,8 +16,9 @@ export default function AdminPage() {
   }
 
   return (
-    <div>
-      
+     <div className="p-6">
+      <h1 className="text-2xl font-bold mb-6">Admin Dashboard</h1>
+      <AddProjectForm/>
     </div>
   );
 }
